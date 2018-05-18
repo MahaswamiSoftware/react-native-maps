@@ -7,6 +7,7 @@ import android.view.WindowManager;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
@@ -61,6 +62,20 @@ public class AirMapOverlayManager extends ViewGroupManager<AirMapOverlay> {
     view.setImage(source);
   }
 
+  @ReactProp(name = "dimension")
+  public void setOverlayWidth(AirMapOverlay view, @Nullable ReadableMap dimensions) {
+    view.setDimensions(dimensions);
+  }
+
+  @ReactProp(name = "bearingAngle")
+  public void setBearingAngle(AirMapOverlay view, @Nullable float bearingAngle) {
+    view.setBearingAngle(bearingAngle);
+  }
+
+  @ReactProp(name = "center")
+  public void setCenter(AirMapOverlay view, @Nullable ReadableMap center) {
+    view.setCenter(center);
+  }
 
   @Override
   @Nullable

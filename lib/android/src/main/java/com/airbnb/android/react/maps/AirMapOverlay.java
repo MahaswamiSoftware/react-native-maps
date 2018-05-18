@@ -24,6 +24,10 @@ public class AirMapOverlay extends AirMapFeature implements ImageReadable {
   private Bitmap iconBitmap;
   private float zIndex;
   private float transparency;
+  private float overlayHeight;
+  private float overlayWidth;
+  private LatLng center;
+  private float bearingAngle;
 
   private final ImageReader mImageReader;
   private GoogleMap map;
@@ -39,6 +43,27 @@ public class AirMapOverlay extends AirMapFeature implements ImageReadable {
     this.bounds = new LatLngBounds(sw, ne);
     if (this.groundOverlay != null) {
       this.groundOverlay.setPositionFromBounds(this.bounds);
+    }
+  }
+
+  public void setCenter(ReadableMap center) {
+      Double latitude = center.getDouble("latitude");
+      Double longitude = center.getDouble("longitude");
+      this.center = new LatLng(latitude, longitude);
+  }
+
+  public void setBearingAngle(float bearingAngle) {
+    this.bearingAngle = bearingAngle;
+    if (this.groundOverlay != null) {
+      this.groundOverlay.setBearing(bearingAngle);
+    }
+  }
+
+  public void setDimensions(ReadableMap dimensions) {
+    this.overlayHeight = (float) dimensions.getDouble("height");
+    this.overlayWidth = (float)  dimensions.getDouble("width");
+    if (this.groundOverlay != null) {
+      this.groundOverlay.setDimensions(this.overlayWidth, this.overlayHeight);
     }
   }
 
@@ -75,8 +100,9 @@ public class AirMapOverlay extends AirMapFeature implements ImageReadable {
     if (this.iconBitmapDescriptor != null) {
       GroundOverlayOptions options = new GroundOverlayOptions();
       options.image(iconBitmapDescriptor);
-      options.positionFromBounds(bounds);
+      options.position(center, overlayWidth, overlayHeight);
       options.zIndex(zIndex);
+      options.bearing(bearingAngle);
       return options;
     }
     return null;
