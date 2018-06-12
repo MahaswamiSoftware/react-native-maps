@@ -8,15 +8,19 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.maps.model.PatternItem;
+import com.google.android.gms.maps.model.Gap;
+import com.google.android.gms.maps.model.Dash;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 
 public class AirMapPolyline extends AirMapFeature {
 
   private PolylineOptions polylineOptions;
   private Polyline polyline;
-
+  private boolean setPolylinePattern;
   private List<LatLng> coordinates;
   private int color;
   private float width;
@@ -44,6 +48,10 @@ public class AirMapPolyline extends AirMapFeature {
     if (polyline != null) {
       polyline.setColor(color);
     }
+  }
+
+  public void setDashPattern(boolean value) {
+    this.setPolylinePattern = value;
   }
 
   public void setWidth(float width) {
@@ -78,6 +86,11 @@ public class AirMapPolyline extends AirMapFeature {
     PolylineOptions options = new PolylineOptions();
     options.addAll(coordinates);
     options.color(color);
+    if(setPolylinePattern){
+        List<PatternItem> pattern = Arrays.<PatternItem>asList(
+                        new Dash(5), new Gap(5));
+        options.pattern(pattern);
+    }
     options.width(width);
     options.geodesic(geodesic);
     options.zIndex(zIndex);

@@ -58,6 +58,11 @@ public class AirMapPolylineManager extends ViewGroupManager<AirMapPolyline> {
     view.setColor(color);
   }
 
+  @ReactProp(name = "dashPattern", defaultBoolean = false)
+  public void setStrokeColor(AirMapPolyline view, boolean value) {
+    view.setDashPattern(value);
+  }
+
   @ReactProp(name = "geodesic", defaultBoolean = false)
   public void setGeodesic(AirMapPolyline view, boolean geodesic) {
     view.setGeodesic(geodesic);
